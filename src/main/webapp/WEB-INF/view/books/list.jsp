@@ -7,7 +7,11 @@
     <title>List books</title>
 </head>
 <body>
-<div> <a href="/bookstore/">Home</a> </div>
+<nav>
+    <div>
+        <a href="${contextPath}">Strona główna</a>
+    </div>
+</nav>
 <h2>Książki:</h2>
 <div>
     <table>
@@ -27,11 +31,15 @@
             <c:url var="details" value="/books/details">
                 <c:param name="bookId" value="${book.id}"/>
             </c:url>
+            <c:url var="buy" value="/books/buy">
+                <c:param name="bookId" value="${book.id}"/>
+            </c:url>
             <tr>
                 <td>${book.name}</td>
                 <td>${book.publisher}</td>
                 <td>${book.price}</td>
                 <td>${book.category.name}</td>
+                <sec:authorize access="hasRole('USER')"> <td><a href="${buy}">Kup</a></td> </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_ADMIN')"> <td><a href="${edit}">Edytuj</a></td> </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_ADMIN')"> <td><a href="${delete}">Usuń</a></td> </sec:authorize>
                 <sec:authorize access="isAuthenticated()"> <td><a href="${details}">Szczegóły</a></td> </sec:authorize>
@@ -39,7 +47,12 @@
         </c:forEach>
     </table>
 </div>
-<sec:authorize access="hasRole('ROLE_ADMIN')"> <div> <input type="button" value="Dodaj książkę" onclick="window.location.href='add';return false;" /> </div> </sec:authorize>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    <div>
+        <a href="${contextPath}/books/add">Dodaj książkę</a>
+<%--        <input type="button" value="Dodaj książkę" onclick="window.location.href='add';return false;" /> --%>
+    </div>
+</sec:authorize>
 
 </body>
 </html>

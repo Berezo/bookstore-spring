@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -17,7 +18,7 @@
 <body>
 <nav>
     <div>
-        <a href="${pageContext.request.contextPath}">Strona główna</a>
+        <a href="${contextPath}">Strona główna</a>
     </div>
 </nav>
 <h3>Logowanie</h3>
@@ -33,8 +34,7 @@
         </tr>
         <tr>
             <td><label for="password">Hasło:</label></td>
-            <td><input type="password" id="password" name="password"
-                       class="form-control"/></td>
+            <td><input type="password" id="password" name="password" class="form-control"/></td>
         </tr>
         <tr>
             <td>

@@ -13,7 +13,7 @@
         <property name="jdbcUrl" value="jdbc:mysql://localhost/jpa2021?serverTimezone=Europe/Warsaw"/>
         <property name="user" value="jpa2021"/>
         <property name="password" value="jpa2021"/>
-        <property name="minPoolSize" value="5"/>
+        <property name="minPoolSize" value="3"/>
         <property name="maxPoolSize" value="50"/>
         <property name="maxIdleTime" value="30000"/>
     </bean>
@@ -44,9 +44,14 @@
         <sec:intercept-url pattern="/login" access="isAnonymous()"/>
         <sec:intercept-url pattern="/logout" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/success" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/add" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/cart/**" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/user/**" access="hasRole('USER')"/>
-        <sec:intercept-url pattern="/orders" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/resources/covers/**" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/orders/list" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/orders/details" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/books/buy" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/books/remove" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/books/list" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/books/details" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/authors/list" access="isAuthenticated()"/>

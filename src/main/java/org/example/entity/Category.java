@@ -27,9 +27,6 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Kategoria{" +
-                "id=" + id + ",\n\t" +
-                "name='" + name + '\n' +
-                '}';
+        return name;
     }
 }

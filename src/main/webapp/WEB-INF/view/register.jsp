@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -17,7 +18,7 @@
 <body>
 <nav>
     <div>
-        <a href="${pageContext.request.contextPath}">Strona główna</a>
+        <a href="${contextPath}">Strona główna</a>
     </div>
 </nav>
 <h3>Rejestracja</h3>
@@ -32,6 +33,26 @@
         <tr>
             <td><label for="password">Hasło:</label></td>
             <td><form:password path="password" id="password" class="formcontrol"/></td>
+        </tr>
+        <tr>
+            <td><label for="name">Imię:</label></td>
+            <td><form:input path="name" id="name" class="form-control"/></td>
+        </tr>
+        <tr>
+            <td><label for="surname">Nazwisko:</label></td>
+            <td><form:input path="surname" id="surname" class="form-control"/></td>
+        </tr>
+        <tr>
+            <td><label for="address">Adres:</label></td>
+            <td><form:input path="address" id="address" class="form-control"/></td>
+        </tr>
+        <tr>
+            <td><label for="email">E-mail:</label></td>
+            <td><form:input path="email" id="email" class="form-control"/></td>
+        </tr>
+        <tr>
+            <td><label for="phone">Telefon:</label></td>
+            <td><form:input path="phone" id="phone" class="form-control"/></td>
         </tr>
         <tr>
             <td>

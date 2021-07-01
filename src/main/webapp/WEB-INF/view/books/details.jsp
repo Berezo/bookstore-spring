@@ -39,20 +39,20 @@
     </p>
 </div>
 <c:choose>
-<c:when test="${book.quantity} == null">
-<div>
-    <p>
-        Ilość: nieograniczona
-    </p>
-</div>
-</c:when>
-<c:when test="${book.quantity} != null">
-    <div>
-        <p>
-            Ilość: ${book.quantity}
-        </p>
-    </div>
-</c:when>
+    <c:when test="${book.quantity == -1}">
+        <div>
+            <p>
+                Ilość: nieograniczona
+            </p>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div>
+            <p>
+                Ilość: ${book.quantity}
+            </p>
+        </div>
+    </c:otherwise>
 </c:choose>
 <div>
     <p>
@@ -60,9 +60,9 @@
     </p>
 </div>
 <div>
-    <p>
-        Okładka: ${book.cover}
-    </p>
+    <c:set var="resources" scope="session" value="/resources/covers/"/>
+    <c:set var="cover" scope="session" value="${contextPath}${resources}${book.cover}"/>
+    <img src="${cover}" alt="Tekst alternatywny">
 </div>
 <div>
     <hr>

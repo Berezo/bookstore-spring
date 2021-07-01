@@ -16,21 +16,23 @@
 <body>
 <nav>
     <div>
-        <a href="${pageContext.request.contextPath}">Strona główna</a>
+        <a href="${contextPath}">Strona główna</a>
     </div>
 </nav>
 <div>
     <sec:authorize access="!isAuthenticated()"><a href="${contextPath}/login">Zaloguj się</a></sec:authorize>
     <sec:authorize access="!isAuthenticated()"><a href="${contextPath}/register">Zarejestruj się</a></sec:authorize>
-    <sec:authorize access="isAuthenticated()"> Witaj ${user.username} <a href="${contextPath}/logout">Wyloguj się</a> </sec:authorize>
+    <sec:authorize access="isAuthenticated()"><a href="${contextPath}/user">Profil</a></sec:authorize>
+    <sec:authorize access="isAuthenticated()"><a href="${contextPath}/logout">Wyloguj się</a></sec:authorize>
 </div>
 <div>
-    <input type="button" value="Książki"
-           onclick="window.location.href='books/list';return false;" />
-    <input type="button" value="Kategorie"
-           onclick="window.location.href='categories/list';return false;" />
-    <input type="button" value="Autorzy"
-           onclick="window.location.href='authors/list';return false;" />
+    <sec:authorize access="isAuthenticated()">
+        <a href="${contextPath}/books/list">Książki</a>
+        <a href="${contextPath}/categories/list">Kategorie</a>
+        <a href="${contextPath}/authors/list">Autorzy</a>
+        <a href="${contextPath}/cart/details">Koszyk</a>
+        <a href="${contextPath}/orders/list">Zamówienia</a>
+    </sec:authorize>
 </div>
 </body>
 </html>

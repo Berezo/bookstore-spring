@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.entity.Book;
+import org.example.model.ProductInfo;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -44,7 +45,8 @@ public class BookDAOImpl implements BookDAO{
         //sesja hibernate
         Session session = sessionFactory.getCurrentSession();
         //zapytanie
-        return session.get(Book.class, bookId);
+//        return session.get(Book.class, bookId);
+        return session.find(Book.class, bookId);
 
     }
 
@@ -54,5 +56,14 @@ public class BookDAOImpl implements BookDAO{
         //sesja hibernate
         Session session = sessionFactory.getCurrentSession();
         session.delete(getBook(bookId));
+    }
+
+    @Override
+    public ProductInfo getProductInfo(int bookId) {
+        Book book = this.getBook(bookId);
+        if (book == null){
+            return null;
+        }
+        return new ProductInfo(book.getId(), book.getName(), book.getPublisher(), book.getPrice(), book.getCategory(), book.getQuantity());
     }
 }

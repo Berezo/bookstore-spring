@@ -16,15 +16,17 @@
 <body>
 <nav>
     <div>
-        <a href="${pageContext.request.contextPath}">Strona główna</a>
+        <a href="${contextPath}">Strona główna</a>
     </div>
 </nav>
-<body>
-<input type="button" value="Books"
-       onclick="window.location.href='books/list';return false;" />
-<input type="button" value="Categories"
-       onclick="window.location.href='categories/list';return false;" />
-<input type="button" value="Authors"
-       onclick="window.location.href='authors/list';return false;" />
-</body>
+<div>
+    Witaj <sec:authentication property="name"/>!
+</div>
+<div>
+    <a href="${contextPath}/books/list">Książki</a>
+    <a href="${contextPath}/categories/list">Kategorie</a>
+    <a href="${contextPath}/authors/list">Autorzy</a>
+    <a href="${contextPath}/cart/details">Koszyk</a>
+    <a href="${contextPath}/orders/list">Zamówienia</a>
+</div>
 </html>
