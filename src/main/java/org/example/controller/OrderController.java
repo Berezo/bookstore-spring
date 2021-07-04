@@ -1,6 +1,7 @@
 package org.example.controller;
 
 
+import org.example.adapter.TimestampAdapter;
 import org.example.entity.Book;
 import org.example.entity.Order;
 import org.example.entity.OrderDetail;
@@ -19,7 +20,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -28,12 +31,15 @@ import java.util.List;
 public class OrderController {
     private OrderService orderService;
     private UserService userService;
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
+    private Timestamp orderDate;
 
     @Autowired
     public void setOrderService(OrderService orderService) { this.orderService = orderService; }
 
     @Autowired
     public void setUserService(UserService userService) { this.userService = userService; }
+
 
     //    @InitBinder
 //    public void init(WebDataBinder binder) {
@@ -59,15 +65,19 @@ public class OrderController {
     public String send(@RequestParam("orderId") int orderId, Model model){
         Order order = orderService.getOrder(orderId);
         List<OrderDetailInfo> orderInfos = orderService.listOrderDetailInfo(orderId);
+        orderDate = order.getOrderDate();
         model.addAttribute("order", order);
         model.addAttribute("orderInfos",orderInfos);
+        model.addAttribute("orderDate", orderDate);
         return "orders/send";
     }
 
     @PostMapping("/send")
     public String send(@ModelAttribute("order") Order order){
+        order.setOrderDate(orderDate);
+        order.setStatus("wyslano");
         orderService.sendOrder(order);
-        return "redirect:orders/list";
+        return "redirect:/list";
     }
 
     @GetMapping("/details")

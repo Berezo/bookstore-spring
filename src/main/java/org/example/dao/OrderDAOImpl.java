@@ -142,13 +142,11 @@ public class OrderDAOImpl implements OrderDAO {
         // Flush
         session.flush();
     }
-    
+
     @Override
     @Transactional
     public void sendOrder(Order order){
         Session session = sessionFactory.getCurrentSession();
-//        order.setOrderDate(new Date());
-        order.setStatus("wyslano");
         session.saveOrUpdate(order);
     }
 

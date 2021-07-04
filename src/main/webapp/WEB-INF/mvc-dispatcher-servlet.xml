@@ -47,7 +47,7 @@
         <sec:intercept-url pattern="/add" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/cart/**" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/user/**" access="hasRole('USER')"/>
-        <sec:intercept-url pattern="/resources/covers/**" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
         <sec:intercept-url pattern="/orders/list" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/orders/details" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/books/buy" access="isAuthenticated()"/>

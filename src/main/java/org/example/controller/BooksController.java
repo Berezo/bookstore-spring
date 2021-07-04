@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.entity.Book;
+import org.example.entity.Category;
 import org.example.model.CartInfo;
 import org.example.model.ProductInfo;
 import org.example.services.AuthorService;
@@ -59,8 +60,12 @@ public class BooksController {
         model.addAttribute("authors", authorService.getAuthors());
         return "books/add";
     }
+    //TODO rozwiązać problem dodania zdjęcia
     @PostMapping("/add")
-    public String add(@ModelAttribute("book") Book book){
+    public String add(@ModelAttribute("book") Book book, @ModelAttribute("category") Category category){
+        if (category.getId() == 3 || category.getId() == 7){
+            book.setQuantity(-1);
+        }
         bookService.saveBook(book);
         return "redirect:/books/list";
     }

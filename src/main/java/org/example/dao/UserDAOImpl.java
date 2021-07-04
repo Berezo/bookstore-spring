@@ -23,6 +23,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public void updateUser(User user){
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
+    }
+
+    @Override
     public User getUser(String userId) {
         Session currentSession = sessionFactory.getCurrentSession();
         Query<User> query = currentSession.createQuery("from User where id=:id", User.class)
