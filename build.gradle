@@ -28,4 +28,10 @@ dependencies {
     providedCompile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.3'
     compile group: 'org.springframework.security', name: 'spring-security-crypto',version: '5.1.5.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '5.3.1.RELEASE'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+    // https://mvnrepository.com/artifact/org.springframework/spring-context-support
+    implementation group: 'org.springframework', name: 'spring-context-support', version: '5.1.7.RELEASE'
+    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
+    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+
 }

@@ -13,7 +13,7 @@
         <property name="jdbcUrl" value="jdbc:mysql://localhost/jpa2021?serverTimezone=Europe/Warsaw"/>
         <property name="user" value="jpa2021"/>
         <property name="password" value="jpa2021"/>
-        <property name="minPoolSize" value="5"/>
+        <property name="minPoolSize" value="3"/>
         <property name="maxPoolSize" value="50"/>
         <property name="maxIdleTime" value="30000"/>
     </bean>
@@ -30,6 +30,27 @@
     <bean id="myTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <!-- SET default mail properties -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="dynamicznyberezgotnawa@gmail.com"/>
+        <property name="password" value="Mopsik23Klopsik"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+    </bean>
+    <!--  Pliki  -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <property name="maxUploadSize" value="4096" />
+    </bean>
     <tx:annotation-driven transaction-manager="myTransactionManager"/>
     <mvc:resources location="/resources/" mapping="/resources/**"/>
     <bean id="bcrypt" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
@@ -44,9 +65,14 @@
         <sec:intercept-url pattern="/login" access="isAnonymous()"/>
         <sec:intercept-url pattern="/logout" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/success" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/add" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/cart/**" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/user/**" access="hasRole('USER')"/>
-        <sec:intercept-url pattern="/orders" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/orders/list" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/orders/details" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/books/buy" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/books/remove" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/books/list" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/books/details" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/authors/list" access="isAuthenticated()"/>

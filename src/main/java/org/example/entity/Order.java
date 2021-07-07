@@ -2,65 +2,46 @@ package org.example.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "zamowienia", //
-        uniqueConstraints = { @UniqueConstraint(columnNames = "nr") })
+@Table(name = "zamowienia")
 public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private String id;
+    @Column(name = "id")
+    private int id;
 
     @Column(name = "data")
-    private Date orderDate;
-
-    @Column(name = "nr")
-    private int orderNum;
+    private Timestamp orderDate;
 
     @Column(name = "kwota")
     private double amount;
 
-    @Column(name = "klient_imie")
-    private String customerName;
+    @Column(name = "status")
+    private String status;
 
-    @Column(name = "klient_nazwisko")
-    private String customerSurname;
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="username")
+    private User user;
 
-    @Column(name = "klient_adres")
-    private String customerAddress;
-
-    @Column(name = "klient_email")
-    private String customerEmail;
-
-    @Column(name = "klient_telefon")
-    private String customerPhone;
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Date getOrderDate() {
+    public Timestamp getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Timestamp orderDate) {
         this.orderDate = orderDate;
     }
 
-    public int getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
 
     public double getAmount() {
         return amount;
@@ -70,44 +51,20 @@ public class Order implements Serializable {
         this.amount = amount;
     }
 
-    public String getCustomerName() {
-        return customerName;
-    }
+    public String getStatus() { return status; }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getCustomerSurname() {
-        return customerSurname;
-    }
+    public User getUser() { return user; }
 
-    public void setCustomerSurname(String customerSurname) {
-        this.customerSurname = customerSurname;
-    }
+    public void setUser(User user) { this.user = user; }
 
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
-
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
+    @Override
+    public String toString() {
+        return "\nDane podstawowe" +
+                "\n - Data zamowienia: " + orderDate +
+                "\n - Kwota zamowienia: " + amount + " zl" +
+                "\n - Status zamowienia: " + status;
     }
 
 }

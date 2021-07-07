@@ -93,4 +93,16 @@ public class RegistrationController {
 
     @GetMapping("/admin")
     public String admin(){ return "admin"; }
+
+    @GetMapping("/user/edit")
+    public String personalDataForm(@RequestParam("username") String username, Model model) {
+        model.addAttribute("user", userService.getUser(username));
+        return "personal";
+    }
+
+    @PostMapping("/user/edit")
+    public String savePersonalData(@ModelAttribute("user") User user, Model model) {
+        userService.updateUser(user);
+        return "redirect:/user";
+    }
 }
