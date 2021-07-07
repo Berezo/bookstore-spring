@@ -47,7 +47,7 @@
         </div>
     </div>
 </nav>
-<main class="flex-shrink-0">
+<main class="container flex-shrink-0">
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <c:forEach var="book" items="${author.books}" >
             <c:url var="edit" value="/books/edit">

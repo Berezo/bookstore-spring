@@ -15,7 +15,7 @@
     <title>Strona główna</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <a class="navbar-brand" href="${contextPath}">
@@ -101,7 +101,7 @@
             </div>
         </div>
         <br>
-        <div class="card text-white bg-primary">
+        <div class="card text-white bg-primary" style="padding: 10px;">
             <div class="card-body">
                 <h5 class="card-title">Zamówienia</h5>
                 <h6 class="card-subtitle mb-2 text-muted"></h6>

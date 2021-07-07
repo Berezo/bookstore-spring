@@ -17,7 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="${contextPath}/resources/css/grid.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <a class="navbar-brand" href="${contextPath}">
@@ -60,10 +60,10 @@
             <div class="col-2 themed-grid-col">
                 Kwota
             </div>
-            <div class="col-2 themed-grid-col">
+            <div class="col-1 themed-grid-col">
                 Status
             </div>
-            <div class="col-2 themed-grid-col">
+            <div class="col-3 themed-grid-col">
             </div>
             <c:forEach var="orderInfo" items="${orderInfos}" >
                 <c:url var="send" value="/orders/send">
@@ -81,15 +81,15 @@
                 <div class="col-2 themed-grid-col">
                     <fmt:formatNumber value = "${orderInfo.amount}" type = "currency"/>
                 </div>
-                <div class="col-2 themed-grid-col">
+                <div class="col-1 themed-grid-col">
                     ${orderInfo.status}
                 </div>
-                <div class="col-2 themed-grid-col">
+                <div class="col-3 themed-grid-col">
                     <c:set var = "status" scope = "session" value = "zlozono"/>
+                    <sec:authorize access="isAuthenticated()"><a href="${details}" class="btn btn-primary">Szczegóły</a> </sec:authorize>
                     <c:if test = "${orderInfo.status == status}">
                         <sec:authorize access="hasRole('ROLE_ADMIN')"> <a href="${send}" class="btn btn-success">Wyślij</a> </sec:authorize>
                     </c:if>
-                    <sec:authorize access="isAuthenticated()"><a href="${details}" class="btn btn-primary">Szczegóły</a> </sec:authorize>
                 </div>
             </c:forEach>
         </div>

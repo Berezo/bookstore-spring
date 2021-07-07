@@ -77,7 +77,7 @@ public class OrderController {
         order.setOrderDate(orderDate);
         order.setStatus("wyslano");
         orderService.sendOrder(order);
-        return "redirect:/list";
+        return "redirect:/orders/list";
     }
 
     @GetMapping("/details")

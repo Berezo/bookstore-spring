@@ -3,7 +3,9 @@ package org.example.dao;
 import org.example.entity.Book;
 import org.example.entity.Order;
 import org.example.entity.OrderDetail;
+import org.example.entity.User;
 import org.example.model.*;
+import org.example.services.EmailService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +27,7 @@ public class OrderDAOImpl implements OrderDAO {
     private SessionFactory sessionFactory;
     private BookDAO bookDAO;
     private UserDAO userDAO;
+    private EmailService emailService;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) { this.sessionFactory = sessionFactory; }
@@ -36,6 +41,9 @@ public class OrderDAOImpl implements OrderDAO {
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
+
+    @Autowired
+    public void setEmailService(EmailService emailService) { this.emailService = emailService; }
 
     @Override
     public int getMaxOrderDetailNum() {
@@ -54,48 +62,42 @@ public class OrderDAOImpl implements OrderDAO {
 //    @Transactional(rollbackFor = Exception.class)
 //    @Override
 //    public void saveOrder(CartInfo cartInfo) {
-//        System.out.println("Przed session!");
 //        Session session = this.sessionFactory.getCurrentSession();
 //
 //        Order order = new Order();
-//
-//        order.setOrderDate(new Date());
+//        order.setOrderDate(new Timestamp(System.currentTimeMillis()));
 //        order.setAmount(cartInfo.getAmountTotal());
 //        order.setStatus("zlozono");
-//
 //        CustomerInfo customerInfo = cartInfo.getCustomerInfo();
 //        order.setUser(userDAO.getUser(customerInfo.getUsername()));
 //
 //        session.persist(order);
+//
 //        int orderId = order.getId();
-//        System.out.println("Po Order!");
 //        List<CartLineInfo> lines = cartInfo.getCartLines();
-//        System.out.println(lines.size());
 //        int orderDetailId = this.getMaxOrderDetailNum();
 //        List<Book> books = this.bookDAO.getBooks();
 //
 //        for (CartLineInfo line : lines) {
-//            System.out.println("Pętla!");
 //            orderDetailId += 1;
 //            OrderDetail detail = new OrderDetail();
-//            System.out.println("Nowy OrderDetail!");
+//
 //            detail.setId(orderDetailId);
 //            detail.setOrder(order);
 //            detail.setAmount(line.getAmount());
 //            detail.setPrice(line.getProductInfo().getPrice());
 //            detail.setQuantity(line.getQuantity());
-//            System.out.println("Przed Book!");
+//
 //            int bookId = line.getProductInfo().getId();
 //            Book book = books.get(bookId);
 //            detail.setBook(book);
-//            System.out.println("Po Book!" + detail.getId());
+//
 //            session.persist(detail);
-//            System.out.println("Po OrderDetail!");
 //        }
 //
 //        // Order Number!
 //        cartInfo.setOrderNum(orderId);
-//        System.out.println("Order Number!");
+//
 //        // Flush
 //        session.flush();
 //    }
@@ -107,10 +109,11 @@ public class OrderDAOImpl implements OrderDAO {
 
         Order order = new Order();
         order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-        order.setAmount(cartInfo.getAmountTotal());
+        order.setAmount(BigDecimal.valueOf(cartInfo.getAmountTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         order.setStatus("zlozono");
         CustomerInfo customerInfo = cartInfo.getCustomerInfo();
-        order.setUser(userDAO.getUser(customerInfo.getUsername()));
+        User user = userDAO.getUser(customerInfo.getUsername());
+        order.setUser(user);
 
         session.persist(order);
 
@@ -125,8 +128,8 @@ public class OrderDAOImpl implements OrderDAO {
 
             detail.setId(orderDetailId);
             detail.setOrder(order);
-            detail.setAmount(line.getAmount());
-            detail.setPrice(line.getProductInfo().getPrice());
+            detail.setAmount(BigDecimal.valueOf(line.getAmount()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+            detail.setPrice(BigDecimal.valueOf(line.getProductInfo().getPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             detail.setQuantity(line.getQuantity());
 
             int bookId = line.getProductInfo().getId();
@@ -141,14 +144,47 @@ public class OrderDAOImpl implements OrderDAO {
 
         // Flush
         session.flush();
+
+        String body = "Zamowienie o numerze " + order.getId() + " zostalo przyjete. Prosimy o uregulowanie platnosci na numer konta 27 1140 4691 7613 7196 0217 8345" + order.toString() + "\nDane osobowe: " + user.toString() + "\nSzczegoly zamowienia:";
+        List<OrderDetailInfo> orderDetailInfos = listOrderDetailInfo(order.getId());
+        for(OrderDetailInfo orderInfo: orderDetailInfos){
+            body += orderInfo.toString();
+        }
+        emailService.sendMail(user.getEmail(),"Bookstore order payment",body);
     }
+
+//    @Override
+//    @Transactional
+//    public void sendOrder(Order order){
+//        Session session = sessionFactory.getCurrentSession();
+//        User user = userDAO.getUser(order.getUser().getUsername());
+//        System.out.println("\n" + user.getUsername() + "\n");
+//        System.out.println("\n" + user.getEmail() + "\n");
+//        System.out.println("\n" + order + "\n");
+//        emailService.sendMail(user.getEmail(),"Bookstore order",order.toString());
+//        session.saveOrUpdate(order);
+//    }
 
     @Override
     @Transactional
     public void sendOrder(Order order){
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(order);
+//        System.out.println("\n" + user.getUsername() + "\n");
+//        System.out.println("\n" + user.getEmail() + "\n");
+//        System.out.println("\n" + order + "\n");
+//        "\nDane osobowe: " + user.toString() +
+//                "\nSzczegóły zamówienia:";
+
+        User user = userDAO.getUser(order.getUser().getUsername());
+        String body = "Zamowienie o numerze " + order.getId() + " zostalo wyslane." + order.toString() + "\nDane osobowe: " + user.toString() + "\nSzczegoly zamowienia:";
+        List<OrderDetailInfo> orderDetailInfos = listOrderDetailInfo(order.getId());
+        for(OrderDetailInfo orderInfo: orderDetailInfos){
+            body += orderInfo.toString();
+        }
+        emailService.sendMail(user.getEmail(),"Bookstore order",body);
     }
+
 
     @Override
     @Transactional

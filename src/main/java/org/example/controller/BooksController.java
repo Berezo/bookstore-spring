@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Controller
@@ -66,6 +68,7 @@ public class BooksController {
         if (category.getId() == 3 || category.getId() == 7){
             book.setQuantity(-1);
         }
+        book.setPrice(BigDecimal.valueOf(book.getPrice()).setScale(2, RoundingMode.HALF_UP).floatValue());
         bookService.saveBook(book);
         return "redirect:/books/list";
     }

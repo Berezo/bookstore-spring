@@ -78,6 +78,14 @@ public class Order implements Serializable {
 
     public void setUser(User user) { this.user = user; }
 
+    @Override
+    public String toString() {
+        return "\nDane podstawowe" +
+                "\n - Data zamowienia: " + orderDate +
+                "\n - Kwota zamowienia: " + amount + " zł" +
+                "\n - Status zamowienia: " + status;
+    }
+
     //    public String getCustomerName() {
 //        return customerName;
 //    }

@@ -97,4 +97,11 @@ public class User {
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
+
+    @Override
+    public String toString() {
+        return  "\n - Imie i nazwisko: " + name + " " + surname +
+                "\n - Adres: " + address +
+                "\n - Telefon: " + phone;
+    }
 }
