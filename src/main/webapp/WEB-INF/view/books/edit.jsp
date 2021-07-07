@@ -45,7 +45,7 @@
     </div>
 </nav>
 <main class="justify-content-center">
-    <form:form action="add" modelAttribute="book" method="POST">
+    <form:form action="add" modelAttribute="book" method="POST" enctype="multipart/form-data">
         <h1 class="h3 mb-3 fw-normal">Edycja książki o identyfikatorze ${book.id}</h1>
         <form:hidden path="id"/>
         <div class="form-floating">
@@ -81,6 +81,9 @@
                 <form:checkbox path="authors" value="${author.id}"/> ${author.name} ${author.surname}
                 <br>
             </c:forEach>
+        </div>
+        <div>
+            <input type="file"  id="image" name="image" cssClass="form-control" accept="image/png, image/jpeg"/>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Dodaj</button>
     </form:form>

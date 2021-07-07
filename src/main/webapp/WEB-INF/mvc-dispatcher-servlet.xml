@@ -45,6 +45,12 @@
             </props>
         </property>
     </bean>
+    <!--  Pliki  -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <property name="maxUploadSize" value="4096" />
+    </bean>
     <tx:annotation-driven transaction-manager="myTransactionManager"/>
     <mvc:resources location="/resources/" mapping="/resources/**"/>
     <bean id="bcrypt" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>

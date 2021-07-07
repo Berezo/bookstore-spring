@@ -8,14 +8,21 @@ import org.example.services.AuthorService;
 import org.example.services.BookService;
 import org.example.services.CategoryService;
 import org.example.services.UserService;
+import org.example.utils.FileUploadUtil;
 import org.example.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -27,6 +34,7 @@ public class BooksController {
     private CategoryService categoryService;
     private AuthorService authorService;
     private UserService userService;
+    private String bookCover = null;
 
     @Autowired
     public void setBookService(BookService bookService) {
@@ -64,14 +72,37 @@ public class BooksController {
     }
     //TODO rozwiązać problem dodania zdjęcia
     @PostMapping("/add")
-    public String add(@ModelAttribute("book") Book book, @ModelAttribute("category") Category category){
+    public String add(@ModelAttribute("book") Book book, @ModelAttribute("category") Category category, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+        book.setCover(bookCover);
+
+        if (!multipartFile.isEmpty()){
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            book.setCover(fileName);
+
+            String uploadDir = "src/main/webapp/resources/covers/";
+
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        }
+
         if (category.getId() == 3 || category.getId() == 7){
             book.setQuantity(-1);
         }
+
         book.setPrice(BigDecimal.valueOf(book.getPrice()).setScale(2, RoundingMode.HALF_UP).floatValue());
+
         bookService.saveBook(book);
         return "redirect:/books/list";
     }
+
+//    @PostMapping("/add")
+//    public String add(@ModelAttribute("book") Book book, @ModelAttribute("category") Category category){
+//        if (category.getId() == 3 || category.getId() == 7){
+//            book.setQuantity(-1);
+//        }
+//        book.setPrice(BigDecimal.valueOf(book.getPrice()).setScale(2, RoundingMode.HALF_UP).floatValue());
+//        bookService.saveBook(book);
+//        return "redirect:/books/list";
+//    }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("bookId") int bookId) {
@@ -85,6 +116,7 @@ public class BooksController {
         model.addAttribute("book", book);
         model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("authors", authorService.getAuthors());
+        bookCover = book.getCover();
         return "books/edit";
     }
 
