@@ -3,10 +3,6 @@ package org.example.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Entity
 @Table(name = "zamowienia")
@@ -29,21 +25,6 @@ public class Order implements Serializable {
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name="username")
     private User user;
-
-//    @Column(name = "klient_imie")
-//    private String customerName;
-//
-//    @Column(name = "klient_nazwisko")
-//    private String customerSurname;
-//
-//    @Column(name = "klient_adres")
-//    private String customerAddress;
-//
-//    @Column(name = "klient_email")
-//    private String customerEmail;
-//
-//    @Column(name = "klient_telefon")
-//    private String customerPhone;
 
     public int getId() {
         return id;
@@ -82,48 +63,8 @@ public class Order implements Serializable {
     public String toString() {
         return "\nDane podstawowe" +
                 "\n - Data zamowienia: " + orderDate +
-                "\n - Kwota zamowienia: " + amount + " zł" +
+                "\n - Kwota zamowienia: " + amount + " zl" +
                 "\n - Status zamowienia: " + status;
     }
-
-    //    public String getCustomerName() {
-//        return customerName;
-//    }
-//
-//    public void setCustomerName(String customerName) {
-//        this.customerName = customerName;
-//    }
-//
-//    public String getCustomerSurname() {
-//        return customerSurname;
-//    }
-//
-//    public void setCustomerSurname(String customerSurname) {
-//        this.customerSurname = customerSurname;
-//    }
-//
-//    public String getCustomerAddress() {
-//        return customerAddress;
-//    }
-//
-//    public void setCustomerAddress(String customerAddress) {
-//        this.customerAddress = customerAddress;
-//    }
-//
-//    public String getCustomerEmail() {
-//        return customerEmail;
-//    }
-//
-//    public void setCustomerEmail(String customerEmail) {
-//        this.customerEmail = customerEmail;
-//    }
-//
-//    public String getCustomerPhone() {
-//        return customerPhone;
-//    }
-//
-//    public void setCustomerPhone(String customerPhone) {
-//        this.customerPhone = customerPhone;
-//    }
 
 }

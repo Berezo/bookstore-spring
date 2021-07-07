@@ -104,33 +104,3 @@
 </footer>
 </body>
 </html>
-
-<%--<div>--%>
-<%--    <table>--%>
-<%--        <tr>--%>
-<%--            <th>Imię i nazwisko</th>--%>
-<%--            <th>Data</th>--%>
-<%--            <th>Kwota</th>--%>
-<%--            <th>Status</th>--%>
-<%--        </tr>--%>
-<%--        <c:forEach var="orderInfo" items="${orderInfos}" >--%>
-<%--            <c:url var="send" value="/orders/send">--%>
-<%--                <c:param name="orderId" value="${orderInfo.id}"/>--%>
-<%--            </c:url>--%>
-<%--            <c:url var="details" value="/orders/details">--%>
-<%--                <c:param name="orderId" value="${orderInfo.id}"/>--%>
-<%--            </c:url>--%>
-<%--            <tr>--%>
-<%--                <td>${orderInfo.customerName} ${orderInfo.customerSurname}</td>--%>
-<%--                <td>${orderInfo.orderDate}</td>--%>
-<%--                <td>${orderInfo.amount}</td>--%>
-<%--                <td>${orderInfo.status}</td>--%>
-<%--                <c:set var = "status" scope = "session" value = "zlozono"/>--%>
-<%--                <c:if test = "${orderInfo.status == status}">--%>
-<%--                    <sec:authorize access="hasRole('ROLE_ADMIN')"> <td><a href="${send}">Wyślij</a></td> </sec:authorize>--%>
-<%--                </c:if>--%>
-<%--                <sec:authorize access="isAuthenticated()"> <td><a href="${details}">Szczegóły</a></td> </sec:authorize>--%>
-<%--            </tr>--%>
-<%--        </c:forEach>--%>
-<%--    </table>--%>
-<%--</div>--%>

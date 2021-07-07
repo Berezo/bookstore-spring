@@ -10,16 +10,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -58,49 +55,6 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return value;
     }
-
-//    @Transactional(rollbackFor = Exception.class)
-//    @Override
-//    public void saveOrder(CartInfo cartInfo) {
-//        Session session = this.sessionFactory.getCurrentSession();
-//
-//        Order order = new Order();
-//        order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-//        order.setAmount(cartInfo.getAmountTotal());
-//        order.setStatus("zlozono");
-//        CustomerInfo customerInfo = cartInfo.getCustomerInfo();
-//        order.setUser(userDAO.getUser(customerInfo.getUsername()));
-//
-//        session.persist(order);
-//
-//        int orderId = order.getId();
-//        List<CartLineInfo> lines = cartInfo.getCartLines();
-//        int orderDetailId = this.getMaxOrderDetailNum();
-//        List<Book> books = this.bookDAO.getBooks();
-//
-//        for (CartLineInfo line : lines) {
-//            orderDetailId += 1;
-//            OrderDetail detail = new OrderDetail();
-//
-//            detail.setId(orderDetailId);
-//            detail.setOrder(order);
-//            detail.setAmount(line.getAmount());
-//            detail.setPrice(line.getProductInfo().getPrice());
-//            detail.setQuantity(line.getQuantity());
-//
-//            int bookId = line.getProductInfo().getId();
-//            Book book = books.get(bookId);
-//            detail.setBook(book);
-//
-//            session.persist(detail);
-//        }
-//
-//        // Order Number!
-//        cartInfo.setOrderNum(orderId);
-//
-//        // Flush
-//        session.flush();
-//    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -153,28 +107,11 @@ public class OrderDAOImpl implements OrderDAO {
         emailService.sendMail(user.getEmail(),"Bookstore order payment",body);
     }
 
-//    @Override
-//    @Transactional
-//    public void sendOrder(Order order){
-//        Session session = sessionFactory.getCurrentSession();
-//        User user = userDAO.getUser(order.getUser().getUsername());
-//        System.out.println("\n" + user.getUsername() + "\n");
-//        System.out.println("\n" + user.getEmail() + "\n");
-//        System.out.println("\n" + order + "\n");
-//        emailService.sendMail(user.getEmail(),"Bookstore order",order.toString());
-//        session.saveOrUpdate(order);
-//    }
-
     @Override
     @Transactional
     public void sendOrder(Order order){
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(order);
-//        System.out.println("\n" + user.getUsername() + "\n");
-//        System.out.println("\n" + user.getEmail() + "\n");
-//        System.out.println("\n" + order + "\n");
-//        "\nDane osobowe: " + user.toString() +
-//                "\nSzczegóły zamówienia:";
 
         User user = userDAO.getUser(order.getUser().getUsername());
         String body = "Zamowienie o numerze " + order.getId() + " zostalo wyslane." + order.toString() + "\nDane osobowe: " + user.toString() + "\nSzczegoly zamowienia:";
@@ -184,7 +121,6 @@ public class OrderDAOImpl implements OrderDAO {
         }
         emailService.sendMail(user.getEmail(),"Bookstore order",body);
     }
-
 
     @Override
     @Transactional

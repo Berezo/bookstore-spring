@@ -66,22 +66,3 @@
 </footer>
 </body>
 </html>
-
-<%--<form:form action="add" modelAttribute="author" method="POST">--%>
-<%--    <table>--%>
-<%--        <tr>--%>
-<%--            <td><label for="name">Imię:</label></td>--%>
-<%--            <td><form:input path="name"  id="name"/></td>--%>
-<%--        </tr>--%>
-<%--        <tr>--%>
-<%--            <td><label for="surname">Nazwisko:</label></td>--%>
-<%--            <td><form:input path="surname"  id="surname"/></td>--%>
-<%--        </tr>--%>
-<%--        <tr>--%>
-<%--            <td>--%>
-<%--                <button type="submit" >Zapisz</button>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--        </tbody>--%>
-<%--    </table>--%>
-<%--</form:form>--%>

@@ -104,14 +104,4 @@ public class CartInfo {
         return total;
     }
 
-//    public void updateQuantity(CartInfo cartForm) {
-//        if (cartForm != null) {
-//            List<CartLineInfo> lines = cartForm.getCartLines();
-//            for (CartLineInfo line : lines) {
-//                this.updateProduct(line.getProductInfo().getId(), line.getQuantity());
-//            }
-//        }
-//
-//    }
-
 }

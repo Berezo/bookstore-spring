@@ -1,7 +1,6 @@
 package org.example.services;
 
 import org.example.dao.AuthorDAO;
-import org.example.dao.BookDAO;
 import org.example.entity.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

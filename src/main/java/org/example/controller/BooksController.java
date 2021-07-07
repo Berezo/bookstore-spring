@@ -11,8 +11,6 @@ import org.example.services.UserService;
 import org.example.utils.FileUploadUtil;
 import org.example.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +18,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -70,7 +67,7 @@ public class BooksController {
         model.addAttribute("authors", authorService.getAuthors());
         return "books/add";
     }
-    //TODO rozwiązać problem dodania zdjęcia
+
     @PostMapping("/add")
     public String add(@ModelAttribute("book") Book book, @ModelAttribute("category") Category category, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         book.setCover(bookCover);
@@ -93,16 +90,6 @@ public class BooksController {
         bookService.saveBook(book);
         return "redirect:/books/list";
     }
-
-//    @PostMapping("/add")
-//    public String add(@ModelAttribute("book") Book book, @ModelAttribute("category") Category category){
-//        if (category.getId() == 3 || category.getId() == 7){
-//            book.setQuantity(-1);
-//        }
-//        book.setPrice(BigDecimal.valueOf(book.getPrice()).setScale(2, RoundingMode.HALF_UP).floatValue());
-//        bookService.saveBook(book);
-//        return "redirect:/books/list";
-//    }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("bookId") int bookId) {

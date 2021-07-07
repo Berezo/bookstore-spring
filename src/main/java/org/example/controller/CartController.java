@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.example.dao.OrderDAO;
 import org.example.entity.Book;
 import org.example.model.CartInfo;
 import org.example.model.CartLineInfo;
@@ -59,26 +58,6 @@ public class CartController {
         model.addAttribute("cart", cartInfo);
         return "cart/details";
     }
-
-//    @PostMapping("/cart/add")
-//    public String shoppingCartHandler(@ModelAttribute("cart") CartInfo cart,
-//                                        HttpServletRequest request,
-//                                        Model model) {
-//
-//        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-//
-//        CartInfo cartInfo = Utils.getCartInSession(request, userService.getUser(currentUserName));
-//
-//        List<CartLineInfo> linesUpdate = cart.getCartLines();
-//
-//        for (CartLineInfo lineUpdate : linesUpdate) {
-//            int bookId = lineUpdate.getProductInfo().getId();
-//            Book book = bookService.getBook(bookId);
-//            cartInfo.updateProduct(lineUpdate.getProductInfo().getId(), lineUpdate.getQuantity());
-//        }
-//
-//        return "redirect:/cart";
-//    }
 
     @PostMapping("/cart/add")
     public String shoppingCartHandler(@ModelAttribute("cart") CartInfo cart,
@@ -164,6 +143,4 @@ public class CartController {
         model.addAttribute("lastOrderedCart", lastOrderedCart);
         return "/cart/finalize";
     }
-
-
 }

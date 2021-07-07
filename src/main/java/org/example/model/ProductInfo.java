@@ -1,6 +1,5 @@
 package org.example.model;
 
-import org.example.entity.Book;
 import org.example.entity.Category;
 
 public class ProductInfo {

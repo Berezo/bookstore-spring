@@ -2,28 +2,20 @@ package org.example.controller;
 
 
 import org.example.adapter.TimestampAdapter;
-import org.example.entity.Book;
 import org.example.entity.Order;
-import org.example.entity.OrderDetail;
-import org.example.entity.User;
 import org.example.model.OrderDetailInfo;
 import org.example.model.OrderInfo;
-import org.example.services.BookService;
 import org.example.services.OrderService;
 import org.example.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -39,12 +31,6 @@ public class OrderController {
 
     @Autowired
     public void setUserService(UserService userService) { this.userService = userService; }
-
-
-    //    @InitBinder
-//    public void init(WebDataBinder binder) {
-//        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"), true));
-//    }
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -88,5 +74,4 @@ public class OrderController {
         model.addAttribute("orderDetailInfos",orderDetailInfos);
         return "orders/details";
     }
-
 }

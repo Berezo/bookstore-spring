@@ -75,7 +75,7 @@ public class OrderDetailInfo {
         return "\nProdukt nr " + productCode +
                 "\n - Nazwa: " + productName +
                 "\n - Ilosc: " + quantity +
-                "\n - Cena detaliczna: " + price +
-                "\n - Kwota: " + amount;
+                "\n - Cena detaliczna: " + price + " zl" +
+                "\n - Kwota: " + amount + " zl";
     }
 }
